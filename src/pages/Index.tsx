@@ -1,12 +1,21 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Hero from '@/components/Hero';
+import SocialFooter from '@/components/SocialFooter';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 gradient-glow opacity-10 pointer-events-none"></div>
+      <div className="absolute top-20 right-20 w-64 h-64 gradient-glow opacity-5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 left-20 w-96 h-96 gradient-glow opacity-5 rounded-full blur-3xl"></div>
+      
+      {/* Main content */}
+      <main className="relative z-10">
+        <Hero />
+      </main>
+      
+      {/* Social footer */}
+      <SocialFooter />
     </div>
   );
 };
