@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Code2, Terminal, Zap, Cpu, Shield, Sparkles } from 'lucide-react';
+import { Code2, Terminal, Zap, Cpu, Shield, Sparkles, Gamepad2, User, Hash } from 'lucide-react';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,7 +24,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
+    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative pt-20">
       <div className="max-w-6xl mx-auto text-center relative z-10">
         
         {/* Pulse rings around main content */}
@@ -34,15 +34,15 @@ const Hero = () => {
           <div className="pulse-ring w-64 h-64" style={{ animationDelay: '1s' }}></div>
         </div>
 
-        {/* Main Headline with staggered animations */}
+        {/* Main Headline with staggered animations - moved down */}
         <div 
           className={`transition-all duration-1200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          <div className="mb-8">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-inter mb-4">
-              <span className="block mb-4 animate-slide-in-left">
+          <div className="mb-12">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-inter mb-6">
+              <span className="block mb-6 animate-slide-in-left">
                 <span className="text-gradient-secondary">Hello everyone,</span>
               </span>
               <span className="block text-gradient-primary text-4xl sm:text-6xl lg:text-7xl xl:text-8xl">
@@ -62,7 +62,7 @@ const Hero = () => {
           <p className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-muted-foreground mb-16 font-light animate-float">
             You may not know me, but I'm a{' '}
             <span className="text-gradient-primary font-bold animate-shimmer">vibe coder</span>
-            <span className="inline-block animate-wave">✨</span>
+            <Sparkles className="inline-block w-6 h-6 ml-2 text-accent animate-glow-pulse" />
           </p>
         </div>
 
@@ -132,20 +132,50 @@ const Hero = () => {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                   <div className="magnetic">
-                    <div className="text-3xl font-bold text-primary mb-2 animate-bounce-subtle">🔓</div>
+                    <Shield className="w-8 h-8 text-primary mb-2 mx-auto animate-bounce-subtle" />
                     <p className="text-sm font-medium">Deobfuscation</p>
                   </div>
                   <div className="magnetic">
-                    <div className="text-3xl font-bold text-secondary mb-2 animate-float">🥊</div>
+                    <Zap className="w-8 h-8 text-secondary mb-2 mx-auto animate-float" />
                     <p className="text-sm font-medium">UFC</p>
                   </div>
                   <div className="magnetic">
-                    <div className="text-3xl font-bold text-accent mb-2 animate-glow-pulse">🔒</div>
+                    <Cpu className="w-8 h-8 text-accent mb-2 mx-auto animate-glow-pulse" />
                     <p className="text-sm font-medium">Obfuscation</p>
                   </div>
                   <div className="magnetic">
-                    <div className="text-3xl font-bold text-primary mb-2 animate-wave">🌙</div>
+                    <Code2 className="w-8 h-8 text-primary mb-2 mx-auto animate-wave" />
                     <p className="text-sm font-medium">Lua(u)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Minecraft Gaming Section */}
+              <div className="gradient-card rounded-2xl p-8 mb-10 border border-accent/30 animate-slide-in-right">
+                <h3 className="text-xl sm:text-2xl font-bold mb-6 text-gradient-secondary flex items-center">
+                  <Gamepad2 className="w-6 h-6 mr-3 animate-bounce-subtle" />
+                  Gaming Universe
+                </h3>
+                <p className="text-lg sm:text-xl text-foreground/90 leading-relaxed mb-6">
+                  When I'm not diving deep into code mysteries, you'll find me crafting digital worlds in Minecraft. 
+                  Building, exploring, and creating — it's another form of vibe coding in a different dimension.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex items-center space-x-4 magnetic hover-glow p-4 rounded-xl gradient-card border border-primary/20">
+                    <User className="w-6 h-6 text-primary" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Minecraft Username</p>
+                      <p className="font-mono font-medium">beastkiller6946</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4 magnetic hover-glow p-4 rounded-xl gradient-card border border-secondary/20">
+                    <Hash className="w-6 h-6 text-secondary" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Xbox Gamertag</p>
+                      <p className="font-mono font-medium">beastkiller#6946</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -155,7 +185,8 @@ const Hero = () => {
                 <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8">
                   That's the essence of my digital journey — but if you're curious about the magic I've crafted, 
                   <br className="hidden md:block" />
-                  <span className="text-gradient-primary font-semibold">feel free to explore the realm below</span> ⚡
+                  <span className="text-gradient-primary font-semibold">feel free to explore the realm below</span>
+                  <Terminal className="inline-block w-5 h-5 ml-2 text-accent animate-glow-pulse" />
                 </p>
               </div>
             </div>
