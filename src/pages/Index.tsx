@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Hero from '@/components/Hero';
 import SocialFooter from '@/components/SocialFooter';
 import BackgroundEffects from '@/components/BackgroundEffects';
@@ -6,6 +6,8 @@ import MusicPrompt from '@/components/MusicPrompt';
 
 const Index = () => {
   const [showMusicPrompt, setShowMusicPrompt] = useState(false);
+  const [musicEnabled, setMusicEnabled] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     // Show music prompt after a short delay
@@ -16,6 +18,11 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleMusicEnabled = (audio: HTMLAudioElement) => {
+    audioRef.current = audio;
+    setMusicEnabled(true);
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Animated background effects */}
@@ -24,7 +31,8 @@ const Index = () => {
       {/* Music prompt modal */}
       <MusicPrompt 
         isOpen={showMusicPrompt} 
-        onClose={() => setShowMusicPrompt(false)} 
+        onClose={() => setShowMusicPrompt(false)}
+        onMusicEnabled={handleMusicEnabled}
       />
       
       {/* Main content */}
