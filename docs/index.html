@@ -606,6 +606,60 @@
             box-shadow: var(--shadow-glow);
         }
         
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            box-shadow: var(--shadow-card);
+            z-index: 60;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .audio-controls.show {
+            display: flex;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        .audio-button {
+            background: transparent;
+            border: 1px solid hsl(var(--border));
+            color: hsl(var(--primary));
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .audio-button:hover {
+            background: hsl(var(--primary) / 0.1);
+            border-color: hsl(var(--primary));
+        }
+        
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: hsl(var(--muted));
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: hsl(var(--primary));
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
         .button-ghost {
             background: transparent;
             color: hsl(var(--muted-foreground));
@@ -805,6 +859,18 @@
         </div>
     </div>
 
+    <!-- Audio Controls -->
+    <div id="audioControls" class="audio-controls">
+        <button class="audio-button" id="playPauseBtn" title="Play/Pause">
+            <i data-lucide="play" id="playIcon"></i>
+            <i data-lucide="pause" id="pauseIcon" style="display: none;"></i>
+        </button>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30" title="Volume">
+        <button class="audio-button" id="muteBtn" title="Mute/Unmute">
+            <i data-lucide="volume-2" id="volumeIcon"></i>
+        </button>
+    </div>
+
     <!-- Toast Container -->
     <div id="toastContainer"></div>
 
@@ -819,8 +885,17 @@
         const closeModalBtn = document.getElementById('closeModal');
         const discordBtn = document.getElementById('discordButton');
         const toastContainer = document.getElementById('toastContainer');
+        const audioControls = document.getElementById('audioControls');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeIcon = document.getElementById('volumeIcon');
         
         let audioElement = null;
+        let isPlaying = false;
+        let isMuted = false;
         
         // Show music modal after delay
         setTimeout(() => {
@@ -846,24 +921,54 @@
         // Enable music function
         function enableMusic() {
             try {
-                // Try to create audio element for embedded playback
+                // Create audio element for embedded playback ONLY in website
                 audioElement = new Audio();
-                // Note: Add your audio file to the same directory as index.html
                 audioElement.src = './ranking-music.mp3';
                 audioElement.loop = true;
                 audioElement.volume = 0.3;
+                audioElement.preload = 'auto';
                 
-                // Attempt to play
-                audioElement.play().catch(() => {
-                    // Fallback: open YouTube if direct audio fails
-                    window.open('https://youtu.be/YJVmu6yttiw?si=bkuMoRi7MMe6CbpJ', '_blank');
+                // Add audio event listeners
+                audioElement.addEventListener('canplay', () => {
+                    showToast("Ranking music enabled!", "The vibe is now fully activated. Enjoy the experience!");
+                    audioControls.classList.add('show');
                 });
                 
-                showToast("Ranking music enabled!", "The vibe is now fully activated. Enjoy the experience!");
+                audioElement.addEventListener('error', () => {
+                    showToast("Music file not found", "Please add 'ranking-music.mp3' to enable background music.");
+                });
+                
+                audioElement.addEventListener('play', () => {
+                    isPlaying = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                });
+                
+                audioElement.addEventListener('pause', () => {
+                    isPlaying = false;
+                    playIcon.style.display = 'block';
+                    pauseIcon.style.display = 'none';
+                });
+                
+                // Attempt to play directly in website
+                audioElement.play().catch((error) => {
+                    console.log('Autoplay blocked, user interaction required');
+                    showToast("Click anywhere to start music", "Browser requires user interaction to play audio.");
+                    
+                    // Add click listener to start music on user interaction
+                    document.addEventListener('click', function startMusic() {
+                        audioElement.play().then(() => {
+                            showToast("Music started!", "Vibe mode activated!");
+                            audioControls.classList.add('show');
+                        }).catch(() => {
+                            showToast("Music unavailable", "Please add 'ranking-music.mp3' file to the docs folder.");
+                        });
+                        document.removeEventListener('click', startMusic);
+                    }, { once: true });
+                });
+                
             } catch (error) {
-                // Fallback for any errors
-                window.open('https://youtu.be/YJVmu6yttiw?si=bkuMoRi7MMe6CbpJ', '_blank');
-                showToast("Music opened!", "Enjoy the ranking music in the new tab!");
+                showToast("Audio not supported", "Your browser doesn't support background audio.");
             }
             
             musicModal.style.display = 'none';
@@ -891,11 +996,49 @@
             });
         }
         
+        // Audio control functions
+        function togglePlayPause() {
+            if (!audioElement) return;
+            
+            if (isPlaying) {
+                audioElement.pause();
+            } else {
+                audioElement.play().catch(() => {
+                    showToast("Playback failed", "Unable to play audio file.");
+                });
+            }
+        }
+        
+        function updateVolume() {
+            if (!audioElement) return;
+            audioElement.volume = volumeSlider.value / 100;
+        }
+        
+        function toggleMute() {
+            if (!audioElement) return;
+            
+            if (isMuted) {
+                audioElement.muted = false;
+                volumeIcon.setAttribute('data-lucide', 'volume-2');
+                isMuted = false;
+            } else {
+                audioElement.muted = true;
+                volumeIcon.setAttribute('data-lucide', 'volume-x');
+                isMuted = true;
+            }
+            lucide.createIcons();
+        }
+        
         // Event listeners
         enableMusicBtn.addEventListener('click', enableMusic);
         skipMusicBtn.addEventListener('click', skipMusic);
         closeModalBtn.addEventListener('click', skipMusic);
         discordBtn.addEventListener('click', copyDiscord);
+        
+        // Audio control event listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        volumeSlider.addEventListener('input', updateVolume);
+        muteBtn.addEventListener('click', toggleMute);
         
         // Close modal on outside click
         musicModal.addEventListener('click', (e) => {
