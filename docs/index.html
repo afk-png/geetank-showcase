@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geetank - Vibe Coder Portfolio</title>
+    <meta name="description" content="Hello everyone, I'm Geetank - a vibe coder specializing in deobfuscation, obfuscation, and Lua(u) development.">
+    <meta name="author" content="Geetank">
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="Geetank - Vibe Coder Portfolio">
+    <meta property="og:description" content="Hello everyone, I'm Geetank - a vibe coder specializing in deobfuscation, obfuscation, and Lua(u) development.">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        /* CSS Variables - Design System */
+        :root {
+            /* Vibe Coder Portfolio Design System */
+            --primary: 220 100% 65%;
+            --primary-variant: 230 95% 75%;
+            --primary-glow: 220 100% 80%;
+            --primary-foreground: 0 0% 100%;
+            
+            --secondary: 270 85% 70%;
+            --secondary-glow: 270 100% 85%;
+            --secondary-foreground: 0 0% 100%;
+            
+            --accent: 190 100% 60%;
+            --accent-glow: 190 100% 75%;
+            --accent-foreground: 0 0% 100%;
+            
+            --background: 220 30% 8%;
+            --background-secondary: 220 25% 12%;
+            --foreground: 0 0% 95%;
+            
+            --muted: 220 15% 25%;
+            --muted-foreground: 0 0% 70%;
+            
+            --card: 220 25% 10%;
+            --card-foreground: 0 0% 95%;
+            
+            --border: 220 20% 20%;
+            --ring: 220 100% 65%;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-variant)));
+            --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
+            --gradient-background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background-secondary)) 100%);
+            --gradient-card: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background-secondary)) 100%);
+            --gradient-glow: radial-gradient(circle, hsl(var(--primary-glow) / 0.3) 0%, transparent 70%);
+            
+            /* Shadows */
+            --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+            --shadow-card: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+            --shadow-elevated: 0 20px 40px -15px hsl(var(--primary) / 0.4);
+            
+            /* Transitions */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient-background);
+            color: hsl(var(--foreground));
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: hsl(var(--background));
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: hsl(var(--primary-glow));
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: var(--shadow-glow);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 60px hsl(var(--primary-glow) / 0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        @keyframes bounceSubtle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        @keyframes rotateY {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0;
+            }
+        }
+        
+        /* Layout */
+        .container {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-content {
+            position: relative;
+            z-index: 20;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        
+        /* Background Effects */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-primary);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--gradient-secondary);
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .orb-3 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%);
+            bottom: 20%;
+            left: 60%;
+            animation-delay: 4s;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero-content {
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 2rem;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-card);
+            animation: scaleIn 0.8s ease-out;
+            position: relative;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border: 2px solid hsl(var(--primary) / 0.3);
+            border-radius: 2rem;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid hsl(var(--primary));
+            white-space: nowrap;
+            animation: typewriter 2s steps(40) 1s both, blink 1s infinite 3s;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .skill-card {
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: var(--shadow-elevated);
+            border-color: hsl(var(--primary));
+        }
+        
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.1), transparent);
+            transition: var(--transition-smooth);
+        }
+        
+        .skill-card:hover::before {
+            left: 100%;
+        }
+        
+        .skill-icon {
+            width: 3rem;
+            height: 3rem;
+            color: hsl(var(--primary));
+            margin-bottom: 1rem;
+            animation: bounceSubtle 2s ease-in-out infinite;
+        }
+        
+        .skill-card:nth-child(2) .skill-icon {
+            animation-delay: 0.2s;
+        }
+        
+        .skill-card:nth-child(3) .skill-icon {
+            animation-delay: 0.4s;
+        }
+        
+        .skill-card:nth-child(4) .skill-icon {
+            animation-delay: 0.6s;
+        }
+        
+        .skill-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+        
+        /* Gaming Section */
+        .gaming-section {
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+        }
+        
+        .gaming-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: var(--gradient-secondary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .gaming-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .gaming-item {
+            background: hsl(var(--background-secondary));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .gaming-item:hover {
+            transform: translateY(-5px);
+            border-color: hsl(var(--secondary));
+            box-shadow: 0 10px 25px hsl(var(--secondary) / 0.2);
+        }
+        
+        .gaming-platform {
+            font-weight: 600;
+            color: hsl(var(--secondary));
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .gaming-username {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: hsl(var(--muted));
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid hsl(var(--border));
+            font-size: 0.9rem;
+        }
+        
+        /* Social Footer */
+        .social-footer {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+        }
+        
+        .social-container {
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 2rem;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid hsl(var(--border));
+            color: hsl(var(--primary));
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: var(--shadow-glow);
+            border-color: hsl(var(--primary));
+            background: hsl(var(--primary) / 0.1);
+        }
+        
+        .social-button.discord {
+            color: hsl(var(--secondary));
+        }
+        
+        .social-button.discord:hover {
+            border-color: hsl(var(--secondary));
+            background: hsl(var(--secondary) / 0.1);
+            box-shadow: 0 0 40px hsl(var(--secondary-glow) / 0.4);
+        }
+        
+        /* Music Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: hsl(var(--background) / 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .modal {
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--primary) / 0.3);
+            border-radius: 2rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-elevated);
+            animation: scaleIn 0.3s ease-out;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: hsl(var(--muted-foreground));
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+        
+        .modal-close:hover {
+            background: hsl(var(--primary) / 0.2);
+            color: hsl(var(--primary));
+        }
+        
+        .modal-icon {
+            width: 4rem;
+            height: 4rem;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .modal-description {
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 2rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .button {
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .button-gradient {
+            background: var(--gradient-primary);
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .button-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .button-ghost {
+            background: transparent;
+            color: hsl(var(--muted-foreground));
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .button-ghost:hover {
+            background: hsl(var(--muted) / 0.5);
+            color: hsl(var(--foreground));
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            background: var(--gradient-card);
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-card);
+            z-index: 200;
+            animation: fadeInUp 0.3s ease-out;
+            max-width: 350px;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: hsl(var(--foreground));
+        }
+        
+        .toast-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gaming-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-container {
+                padding: 0.75rem 1.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="background-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <main class="main-content">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="pulse-ring"></div>
+                    
+                    <h1 class="hero-title">
+                        <span class="typewriter">Hello everyone, I'm Geetank</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        You may not know me, but I'm a vibe coder.
+                    </p>
+                    
+                    <div class="hero-description">
+                        <p>I don't code traditionally, but with vibe coding I can achieve many things, such as:</p>
+                        <br>
+                        <p><strong>• Creating beautiful, responsive websites</strong></p>
+                        <p><strong>• Building advanced Lua(u) obfuscators and deobfuscation tools</strong></p>
+                        <p><strong>• Writing efficient scripts and automation tools</strong></p>
+                        <p><strong>• Developing innovative solutions with creative approaches</strong></p>
+                        <br>
+                        <p>I am deeply interested in deobfuscation, UFC, obfuscation, and Lua(u) development. 
+                        That's pretty much it — but if you'd like to check out my projects, feel free to explore below.</p>
+                    </div>
+                    
+                    <!-- Skills Grid -->
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i data-lucide="code" class="skill-icon"></i>
+                            <h3 class="skill-title">Web Development</h3>
+                            <p class="skill-description">Creating modern, responsive websites with cutting-edge technologies</p>
+                        </div>
+                        <div class="skill-card">
+                            <i data-lucide="shield" class="skill-icon"></i>
+                            <h3 class="skill-title">Obfuscation</h3>
+                            <p class="skill-description">Advanced code protection and obfuscation techniques for Lua(u)</p>
+                        </div>
+                        <div class="skill-card">
+                            <i data-lucide="search" class="skill-icon"></i>
+                            <h3 class="skill-title">Deobfuscation</h3>
+                            <p class="skill-description">Reverse engineering and code analysis for security research</p>
+                        </div>
+                        <div class="skill-card">
+                            <i data-lucide="zap" class="skill-icon"></i>
+                            <h3 class="skill-title">Automation</h3>
+                            <p class="skill-description">Building efficient scripts and tools for workflow optimization</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Gaming Section -->
+                    <div class="gaming-section">
+                        <h3 class="gaming-title">
+                            <i data-lucide="gamepad-2"></i>
+                            Gaming & Community
+                        </h3>
+                        <p>When I'm not coding, you can find me exploring virtual worlds and connecting with the gaming community:</p>
+                        <div class="gaming-details">
+                            <div class="gaming-item">
+                                <div class="gaming-platform">
+                                    <i data-lucide="monitor"></i>
+                                    Minecraft (PC)
+                                </div>
+                                <div class="gaming-username">beastkiller6946</div>
+                            </div>
+                            <div class="gaming-item">
+                                <div class="gaming-platform">
+                                    <i data-lucide="xbox"></i>
+                                    Xbox Live
+                                </div>
+                                <div class="gaming-username">beastkiller#6946</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Social Footer -->
+    <footer class="social-footer">
+        <div class="social-container">
+            <a href="https://github.com/afk-png" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="Visit GitHub profile">
+                <i data-lucide="github"></i>
+            </a>
+            <button class="social-button discord" id="discordButton" aria-label="Copy Discord username">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.211.375-.445.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Music Modal -->
+    <div id="musicModal" class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" id="closeModal">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="modal-icon">
+                <i data-lucide="music" style="color: white; width: 2rem; height: 2rem;"></i>
+            </div>
+            
+            <h2 class="modal-title">Enhance Your Experience</h2>
+            <p class="modal-description">
+                Would you like to enable ranking music to elevate the vibe coding experience?
+            </p>
+            
+            <div class="modal-buttons">
+                <button class="button button-gradient" id="enableMusic">
+                    <i data-lucide="volume-2"></i>
+                    Yes, enable the vibes
+                </button>
+                <button class="button button-ghost" id="skipMusic">
+                    Continue without music
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // DOM Elements
+        const musicModal = document.getElementById('musicModal');
+        const enableMusicBtn = document.getElementById('enableMusic');
+        const skipMusicBtn = document.getElementById('skipMusic');
+        const closeModalBtn = document.getElementById('closeModal');
+        const discordBtn = document.getElementById('discordButton');
+        const toastContainer = document.getElementById('toastContainer');
+        
+        let audioElement = null;
+        
+        // Show music modal after delay
+        setTimeout(() => {
+            musicModal.style.display = 'flex';
+        }, 1500);
+        
+        // Toast function
+        function showToast(title, description) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div class="toast-title">${title}</div>
+                <div class="toast-description">${description}</div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Enable music function
+        function enableMusic() {
+            try {
+                // Try to create audio element for embedded playback
+                audioElement = new Audio();
+                // Note: Add your audio file to the same directory as index.html
+                audioElement.src = './ranking-music.mp3';
+                audioElement.loop = true;
+                audioElement.volume = 0.3;
+                
+                // Attempt to play
+                audioElement.play().catch(() => {
+                    // Fallback: open YouTube if direct audio fails
+                    window.open('https://youtu.be/YJVmu6yttiw?si=bkuMoRi7MMe6CbpJ', '_blank');
+                });
+                
+                showToast("Ranking music enabled!", "The vibe is now fully activated. Enjoy the experience!");
+            } catch (error) {
+                // Fallback for any errors
+                window.open('https://youtu.be/YJVmu6yttiw?si=bkuMoRi7MMe6CbpJ', '_blank');
+                showToast("Music opened!", "Enjoy the ranking music in the new tab!");
+            }
+            
+            musicModal.style.display = 'none';
+        }
+        
+        // Skip music function
+        function skipMusic() {
+            showToast("No problem!", "You can still enjoy the full vibe coder experience.");
+            musicModal.style.display = 'none';
+        }
+        
+        // Copy Discord username
+        function copyDiscord() {
+            navigator.clipboard.writeText('@topggalactic').then(() => {
+                showToast("Discord username copied!", "@topggalactic has been copied to your clipboard.");
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = '@topggalactic';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast("Discord username copied!", "@topggalactic has been copied to your clipboard.");
+            });
+        }
+        
+        // Event listeners
+        enableMusicBtn.addEventListener('click', enableMusic);
+        skipMusicBtn.addEventListener('click', skipMusic);
+        closeModalBtn.addEventListener('click', skipMusic);
+        discordBtn.addEventListener('click', copyDiscord);
+        
+        // Close modal on outside click
+        musicModal.addEventListener('click', (e) => {
+            if (e.target === musicModal) {
+                skipMusic();
+            }
+        });
+        
+        // Add some interactive effects
+        document.querySelectorAll('.skill-card').forEach((card, index) => {
+            card.addEventListener('mouseenter', () => {
+                card.style.animationDelay = '0s';
+            });
+        });
+        
+        // Smooth scrolling for any internal links (if added later)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add loading animation completion
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>
