@@ -100,7 +100,99 @@
             background: hsl(var(--primary-glow));
         }
         
-        /* Animations */
+        /* 3D Transforms and Advanced Animations */
+        @keyframes rotate3D {
+            0% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+                transform: perspective(1000px) rotateX(5deg) rotateY(90deg);
+            }
+            50% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(180deg);
+            }
+            75% {
+                transform: perspective(1000px) rotateX(-5deg) rotateY(270deg);
+            }
+            100% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes cube3D {
+            0% {
+                transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            33% {
+                transform: perspective(800px) rotateX(90deg) rotateY(90deg) rotateZ(0deg);
+            }
+            66% {
+                transform: perspective(800px) rotateX(180deg) rotateY(180deg) rotateZ(90deg);
+            }
+            100% {
+                transform: perspective(800px) rotateX(360deg) rotateY(360deg) rotateZ(180deg);
+            }
+        }
+
+        @keyframes float3D {
+            0%, 100% {
+                transform: perspective(1000px) translateY(0px) rotateX(0deg) rotateY(0deg);
+            }
+            33% {
+                transform: perspective(1000px) translateY(-15px) rotateX(5deg) rotateY(120deg);
+            }
+            66% {
+                transform: perspective(1000px) translateY(-25px) rotateX(-5deg) rotateY(240deg);
+            }
+        }
+
+        @keyframes morphing3D {
+            0% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+                border-radius: 2rem;
+            }
+            25% {
+                transform: perspective(1000px) rotateX(15deg) rotateY(90deg) scale(1.1);
+                border-radius: 50%;
+            }
+            50% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(180deg) scale(0.9);
+                border-radius: 1rem;
+            }
+            75% {
+                transform: perspective(1000px) rotateX(-15deg) rotateY(270deg) scale(1.05);
+                border-radius: 3rem;
+            }
+            100% {
+                transform: perspective(1000px) rotateX(0deg) rotateY(360deg) scale(1);
+                border-radius: 2rem;
+            }
+        }
+
+        @keyframes hologram {
+            0%, 100% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                transform: perspective(1000px) rotateY(90deg);
+                opacity: 0.8;
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                transform: perspective(1000px) rotateY(180deg);
+                opacity: 0.9;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                transform: perspective(1000px) rotateY(270deg);
+                opacity: 0.7;
+                filter: hue-rotate(270deg);
+            }
+        }
+        
+        /* Basic Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -161,15 +253,6 @@
             }
         }
         
-        @keyframes rotateY {
-            from {
-                transform: rotateY(0deg);
-            }
-            to {
-                transform: rotateY(360deg);
-            }
-        }
-        
         @keyframes typewriter {
             from {
                 width: 0;
@@ -220,7 +303,6 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(40px);
-            animation: float 6s ease-in-out infinite;
         }
         
         .orb-1 {
@@ -229,7 +311,7 @@
             background: var(--gradient-primary);
             top: 20%;
             left: 10%;
-            animation-delay: 0s;
+            animation: float3D 6s ease-in-out infinite, rotate3D 12s linear infinite;
         }
         
         .orb-2 {
@@ -238,7 +320,7 @@
             background: var(--gradient-secondary);
             top: 60%;
             right: 15%;
-            animation-delay: 2s;
+            animation: float3D 8s ease-in-out infinite reverse, cube3D 15s linear infinite;
         }
         
         .orb-3 {
@@ -247,7 +329,7 @@
             background: radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%);
             bottom: 20%;
             left: 60%;
-            animation-delay: 4s;
+            animation: float3D 7s ease-in-out infinite, morphing3D 10s ease-in-out infinite;
         }
         
         /* Hero Section */
@@ -264,8 +346,15 @@
             padding: 3rem;
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow-card);
-            animation: scaleIn 0.8s ease-out;
+            animation: scaleIn 0.8s ease-out, morphing3D 15s ease-in-out infinite;
             position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .hero-content:hover {
+            transform: perspective(1200px) rotateX(5deg) rotateY(-5deg) scale(1.02);
+            transition: var(--transition-smooth);
+            animation: hologram 3s ease-in-out infinite;
         }
         
         .pulse-ring {
@@ -277,7 +366,7 @@
             height: 100%;
             border: 2px solid hsl(var(--primary) / 0.3);
             border-radius: 2rem;
-            animation: glowPulse 3s ease-in-out infinite;
+            animation: glowPulse 3s ease-in-out infinite, rotate3D 20s linear infinite;
         }
         
         .hero-title {
@@ -290,6 +379,7 @@
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
             animation: shimmer 3s ease-in-out infinite;
+            transform-style: preserve-3d;
         }
         
         .typewriter {
@@ -297,7 +387,7 @@
             overflow: hidden;
             border-right: 2px solid hsl(var(--primary));
             white-space: nowrap;
-            animation: typewriter 2s steps(40) 1s both, blink 1s infinite 3s;
+            animation: typewriter 2s steps(40) 1s both, blink 1s infinite 3s, rotate3D 20s linear infinite;
         }
         
         .hero-subtitle {
@@ -333,12 +423,23 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            animation: float3D 6s ease-in-out infinite;
         }
         
+        .skill-card:nth-child(1) { animation-delay: 0s; }
+        .skill-card:nth-child(2) { animation-delay: 1s; }
+        .skill-card:nth-child(3) { animation-delay: 2s; }
+        .skill-card:nth-child(4) { animation-delay: 3s; }
+        
         .skill-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: var(--shadow-elevated);
+            transform: perspective(1000px) translateY(-25px) rotateX(15deg) rotateY(-10deg) scale(1.15);
+            box-shadow: 
+                var(--shadow-elevated),
+                0 0 120px hsl(var(--primary) / 0.5),
+                inset 0 0 30px hsl(var(--primary) / 0.2);
             border-color: hsl(var(--primary));
+            animation: hologram 2s ease-in-out infinite, rotate3D 4s linear infinite;
         }
         
         .skill-card::before {
@@ -362,18 +463,6 @@
             color: hsl(var(--primary));
             margin-bottom: 1rem;
             animation: bounceSubtle 2s ease-in-out infinite;
-        }
-        
-        .skill-card:nth-child(2) .skill-icon {
-            animation-delay: 0.2s;
-        }
-        
-        .skill-card:nth-child(3) .skill-icon {
-            animation-delay: 0.4s;
-        }
-        
-        .skill-card:nth-child(4) .skill-icon {
-            animation-delay: 0.6s;
         }
         
         .skill-title {
@@ -424,12 +513,15 @@
             border-radius: 0.75rem;
             padding: 1.5rem;
             transition: var(--transition-smooth);
+            transform-style: preserve-3d;
         }
         
         .gaming-item:hover {
-            transform: translateY(-5px);
+            transform: perspective(800px) translateY(-10px) rotateX(10deg) rotateY(5deg);
+            box-shadow: 
+                0 20px 40px hsl(var(--secondary) / 0.3),
+                0 0 60px hsl(var(--secondary) / 0.2);
             border-color: hsl(var(--secondary));
-            box-shadow: 0 10px 25px hsl(var(--secondary) / 0.2);
         }
         
         .gaming-platform {
@@ -487,8 +579,10 @@
         }
         
         .social-button:hover {
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: var(--shadow-glow);
+            transform: perspective(500px) translateY(-5px) rotateX(15deg) rotateY(-10deg) scale(1.2);
+            box-shadow: 
+                var(--shadow-glow),
+                0 10px 30px hsl(var(--primary) / 0.4);
             border-color: hsl(var(--primary));
             background: hsl(var(--primary) / 0.1);
         }
@@ -606,6 +700,17 @@
             box-shadow: var(--shadow-glow);
         }
         
+        .button-ghost {
+            background: transparent;
+            color: hsl(var(--muted-foreground));
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .button-ghost:hover {
+            background: hsl(var(--muted) / 0.5);
+            color: hsl(var(--foreground));
+        }
+        
         /* Audio Controls */
         .audio-controls {
             position: fixed;
@@ -660,17 +765,6 @@
             cursor: pointer;
         }
         
-        .button-ghost {
-            background: transparent;
-            color: hsl(var(--muted-foreground));
-            border: 1px solid hsl(var(--border));
-        }
-        
-        .button-ghost:hover {
-            background: hsl(var(--muted) / 0.5);
-            color: hsl(var(--foreground));
-        }
-        
         /* Toast Notification */
         .toast {
             position: fixed;
@@ -697,155 +791,6 @@
             font-size: 0.9rem;
         }
         
-        /* 3D Transforms and Advanced Animations */
-        @keyframes rotate3D {
-            0% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-            }
-            25% {
-                transform: perspective(1000px) rotateX(5deg) rotateY(90deg);
-            }
-            50% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(180deg);
-            }
-            75% {
-                transform: perspective(1000px) rotateX(-5deg) rotateY(270deg);
-            }
-            100% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(360deg);
-            }
-        }
-
-        @keyframes cube3D {
-            0% {
-                transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-            }
-            33% {
-                transform: perspective(800px) rotateX(90deg) rotateY(90deg) rotateZ(0deg);
-            }
-            66% {
-                transform: perspective(800px) rotateX(180deg) rotateY(180deg) rotateZ(90deg);
-            }
-            100% {
-                transform: perspective(800px) rotateX(360deg) rotateY(360deg) rotateZ(180deg);
-            }
-        }
-
-        @keyframes float3D {
-            0%, 100% {
-                transform: perspective(1000px) translateY(0px) rotateX(0deg) rotateY(0deg);
-            }
-            33% {
-                transform: perspective(1000px) translateY(-15px) rotateX(5deg) rotateY(120deg);
-            }
-            66% {
-                transform: perspective(1000px) translateY(-25px) rotateX(-5deg) rotateY(240deg);
-            }
-        }
-
-        @keyframes morphing3D {
-            0% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
-                border-radius: 2rem;
-            }
-            25% {
-                transform: perspective(1000px) rotateX(15deg) rotateY(90deg) scale(1.1);
-                border-radius: 50%;
-            }
-            50% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(180deg) scale(0.9);
-                border-radius: 1rem;
-            }
-            75% {
-                transform: perspective(1000px) rotateX(-15deg) rotateY(270deg) scale(1.05);
-                border-radius: 3rem;
-            }
-            100% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(360deg) scale(1);
-                border-radius: 2rem;
-            }
-        }
-
-        @keyframes hologram {
-            0%, 100% {
-                transform: perspective(1000px) rotateY(0deg);
-                opacity: 1;
-                filter: hue-rotate(0deg);
-            }
-            25% {
-                transform: perspective(1000px) rotateY(90deg);
-                opacity: 0.8;
-                filter: hue-rotate(90deg);
-            }
-            50% {
-                transform: perspective(1000px) rotateY(180deg);
-                opacity: 0.9;
-                filter: hue-rotate(180deg);
-            }
-            75% {
-                transform: perspective(1000px) rotateY(270deg);
-                opacity: 0.7;
-                filter: hue-rotate(270deg);
-            }
-        }
-
-        /* Enhanced 3D Elements */
-        .skill-card:hover {
-            transform: perspective(1000px) translateY(-15px) rotateX(10deg) rotateY(-5deg) scale(1.05);
-            box-shadow: 
-                var(--shadow-elevated),
-                0 0 80px hsl(var(--primary) / 0.3),
-                inset 0 0 20px hsl(var(--primary) / 0.1);
-            border-color: hsl(var(--primary));
-            animation: hologram 3s ease-in-out infinite;
-        }
-
-        .hero-content:hover {
-            transform: perspective(1200px) rotateX(2deg) rotateY(-2deg);
-            transition: var(--transition-smooth);
-        }
-
-        .gradient-orb {
-            animation: float3D 8s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            animation: float3D 6s ease-in-out infinite, rotate3D 12s linear infinite;
-        }
-
-        .orb-2 {
-            animation: float3D 8s ease-in-out infinite reverse, cube3D 15s linear infinite;
-        }
-
-        .orb-3 {
-            animation: float3D 7s ease-in-out infinite, morphing3D 10s ease-in-out infinite;
-        }
-
-        .pulse-ring {
-            animation: glowPulse 3s ease-in-out infinite, rotate3D 20s linear infinite;
-        }
-
-        /* Enhanced Gaming Cards */
-        .gaming-item {
-            transform-style: preserve-3d;
-            transition: var(--transition-smooth);
-        }
-
-        .gaming-item:hover {
-            transform: perspective(800px) translateY(-10px) rotateX(10deg) rotateY(5deg);
-            box-shadow: 
-                0 20px 40px hsl(var(--secondary) / 0.3),
-                0 0 60px hsl(var(--secondary) / 0.2);
-        }
-
-        /* 3D Social Buttons */
-        .social-button:hover {
-            transform: perspective(500px) translateY(-5px) rotateX(15deg) rotateY(-10deg) scale(1.2);
-            box-shadow: 
-                var(--shadow-glow),
-                0 10px 30px hsl(var(--primary) / 0.4);
-        }
-
         /* Comprehensive Responsive Design */
         
         /* Extra Small Devices (phones, 576px and down) */
@@ -1154,13 +1099,13 @@
             
             <h2 class="modal-title">Enhance Your Experience</h2>
             <p class="modal-description">
-                Would you like to enable ranking music to elevate the vibe coding experience?
+                Would you like to enable epic ranking music to elevate the vibe coding experience?
             </p>
             
             <div class="modal-buttons">
                 <button class="button button-gradient" id="enableMusic">
                     <i data-lucide="volume-2"></i>
-                    Yes, enable the vibes
+                    Yes, enable epic vibes
                 </button>
                 <button class="button button-ghost" id="skipMusic">
                     Continue without music
@@ -1203,6 +1148,8 @@
         const muteBtn = document.getElementById('muteBtn');
         const volumeIcon = document.getElementById('volumeIcon');
         
+        let audioContext = null;
+        let musicNodes = null;
         let audioElement = null;
         let isPlaying = false;
         let isMuted = false;
@@ -1228,59 +1175,119 @@
             }, 4000);
         }
         
-        // Enable music function
+        // Enable music function - generates music in website using Web Audio API
         function enableMusic() {
             try {
-                // Create audio element for embedded playback ONLY in website
-                audioElement = new Audio();
-                // Stream from a public music URL - no downloads needed
-                audioElement.src = 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav';
-                audioElement.loop = true;
-                audioElement.volume = 0.3;
-                audioElement.preload = 'auto';
-                audioElement.crossOrigin = 'anonymous';
+                // Create audio context for web-based music generation (no external files needed)
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 
-                // Add audio event listeners
-                audioElement.addEventListener('canplay', () => {
-                    showToast("Ranking music enabled!", "The vibe is now fully activated. Enjoy the experience!");
-                    audioControls.classList.add('show');
-                });
-                
-                audioElement.addEventListener('error', () => {
-                    showToast("Music file not found", "Please add 'ranking-music.mp3' to enable background music.");
-                });
-                
-                audioElement.addEventListener('play', () => {
-                    isPlaying = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                });
-                
-                audioElement.addEventListener('pause', () => {
-                    isPlaying = false;
-                    playIcon.style.display = 'block';
-                    pauseIcon.style.display = 'none';
-                });
-                
-                // Attempt to play directly in website
-                audioElement.play().catch((error) => {
-                    console.log('Autoplay blocked, user interaction required');
-                    showToast("Click anywhere to start music", "Browser requires user interaction to play audio.");
+                // Generate epic ranking music using Web Audio API - plays ONLY in website
+                function createEpicRankingMusic() {
+                    const oscillator1 = audioContext.createOscillator();
+                    const oscillator2 = audioContext.createOscillator();
+                    const oscillator3 = audioContext.createOscillator();
+                    const oscillator4 = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    const filterNode = audioContext.createBiquadFilter();
                     
-                    // Add click listener to start music on user interaction
-                    document.addEventListener('click', function startMusic() {
-                        audioElement.play().then(() => {
-                            showToast("Music started!", "Vibe mode activated!");
-                            audioControls.classList.add('show');
-                        }).catch(() => {
-                            showToast("Music unavailable", "Please add 'ranking-music.mp3' file to the docs folder.");
+                    // Create epic ranking music frequencies - bass, mid, treble, lead
+                    oscillator1.frequency.setValueAtTime(110, audioContext.currentTime); // Bass A2
+                    oscillator2.frequency.setValueAtTime(220, audioContext.currentTime); // Mid A3
+                    oscillator3.frequency.setValueAtTime(440, audioContext.currentTime); // Treble A4
+                    oscillator4.frequency.setValueAtTime(880, audioContext.currentTime); // Lead A5
+                    
+                    oscillator1.type = 'sawtooth'; // Bass
+                    oscillator2.type = 'square';   // Mid
+                    oscillator3.type = 'triangle'; // Treble
+                    oscillator4.type = 'sine';     // Lead
+                    
+                    // Setup filter for better sound
+                    filterNode.type = 'lowpass';
+                    filterNode.frequency.setValueAtTime(800, audioContext.currentTime);
+                    filterNode.Q.setValueAtTime(1, audioContext.currentTime);
+                    
+                    // Connect oscillators to filter to gain node
+                    oscillator1.connect(filterNode);
+                    oscillator2.connect(filterNode);
+                    oscillator3.connect(filterNode);
+                    oscillator4.connect(filterNode);
+                    filterNode.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    // Set initial volume
+                    gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                    
+                    // Start oscillators
+                    oscillator1.start();
+                    oscillator2.start();
+                    oscillator3.start();
+                    oscillator4.start();
+                    
+                    // Create epic music variation over time
+                    let beatCounter = 0;
+                    const musicInterval = setInterval(() => {
+                        if (isPlaying && audioContext.state === 'running') {
+                            const time = audioContext.currentTime;
+                            beatCounter++;
+                            
+                            // Epic chord progressions - Am, F, C, G
+                            const chords = [
+                                [110, 220, 330, 440], // Am
+                                [87.3, 174.6, 261.6, 349.2], // F
+                                [130.8, 261.6, 392.4, 523.2], // C
+                                [98, 196, 294, 392] // G
+                            ];
+                            
+                            const currentChord = chords[Math.floor(beatCounter / 4) % 4];
+                            
+                            // Apply frequencies with some variation
+                            oscillator1.frequency.setValueAtTime(currentChord[0] + Math.sin(time * 0.5) * 5, time);
+                            oscillator2.frequency.setValueAtTime(currentChord[1] + Math.cos(time * 0.7) * 8, time);
+                            oscillator3.frequency.setValueAtTime(currentChord[2] + Math.sin(time * 0.3) * 10, time);
+                            oscillator4.frequency.setValueAtTime(currentChord[3] + Math.cos(time * 0.9) * 15, time);
+                            
+                            // Dynamic filter for epic effect
+                            filterNode.frequency.setValueAtTime(600 + Math.sin(time * 0.2) * 200, time);
+                        }
+                    }, 250); // Beat every 250ms = 240 BPM
+                    
+                    return { oscillator1, oscillator2, oscillator3, oscillator4, gainNode, filterNode, musicInterval };
+                }
+                
+                // Create the epic music
+                musicNodes = createEpicRankingMusic();
+                audioElement = { 
+                    play: () => { 
+                        audioContext.resume().then(() => {
+                            isPlaying = true;
+                            playIcon.style.display = 'none';
+                            pauseIcon.style.display = 'block';
                         });
-                        document.removeEventListener('click', startMusic);
-                    }, { once: true });
-                });
+                    },
+                    pause: () => { 
+                        audioContext.suspend().then(() => {
+                            isPlaying = false;
+                            playIcon.style.display = 'block';
+                            pauseIcon.style.display = 'none';
+                        });
+                    },
+                    volume: 0.3,
+                    muted: false
+                };
+                
+                // Auto-start the generated music
+                showToast("🎵 Epic Ranking Music Enabled!", "Generated epic music is now playing directly in your browser!");
+                audioControls.classList.add('show');
+                
+                // Auto-play after user interaction
+                document.addEventListener('click', function startMusic() {
+                    audioElement.play();
+                    showToast("🚀 Vibe Mode Fully Activated!", "Epic ranking music is now playing! Feel the energy!");
+                    document.removeEventListener('click', startMusic);
+                }, { once: true });
                 
             } catch (error) {
-                showToast("Audio not supported", "Your browser doesn't support background audio.");
+                showToast("Audio not supported", "Your browser doesn't support Web Audio API.");
             }
             
             musicModal.style.display = 'none';
@@ -1288,7 +1295,7 @@
         
         // Skip music function
         function skipMusic() {
-            showToast("No problem!", "You can still enjoy the full vibe coder experience.");
+            showToast("No problem!", "You can still enjoy the full vibe coder experience with epic 3D animations!");
             musicModal.style.display = 'none';
         }
         
@@ -1315,26 +1322,26 @@
             if (isPlaying) {
                 audioElement.pause();
             } else {
-                audioElement.play().catch(() => {
-                    showToast("Playback failed", "Unable to play audio file.");
-                });
+                audioElement.play();
             }
         }
         
         function updateVolume() {
-            if (!audioElement) return;
-            audioElement.volume = volumeSlider.value / 100;
+            if (!audioElement || !musicNodes) return;
+            const volume = volumeSlider.value / 100;
+            musicNodes.gainNode.gain.setValueAtTime(volume * 0.05, audioContext.currentTime);
         }
         
         function toggleMute() {
-            if (!audioElement) return;
+            if (!audioElement || !musicNodes) return;
             
             if (isMuted) {
-                audioElement.muted = false;
+                const volume = volumeSlider.value / 100;
+                musicNodes.gainNode.gain.setValueAtTime(volume * 0.05, audioContext.currentTime);
                 volumeIcon.setAttribute('data-lucide', 'volume-2');
                 isMuted = false;
             } else {
-                audioElement.muted = true;
+                musicNodes.gainNode.gain.setValueAtTime(0, audioContext.currentTime);
                 volumeIcon.setAttribute('data-lucide', 'volume-x');
                 isMuted = true;
             }
